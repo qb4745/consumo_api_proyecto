@@ -9,7 +9,7 @@ class HomeListView(ListView):
     context_object_name = "data"
 
     def get_queryset(self):
-        response = requests.get(f'https://qb4745.pythonanywhere.com/api/onepiececapitulomanga/')
+        response = requests.get(f'http://127.0.0.1:8000/api/onepiececapitulomanga/')
         if response.status_code == 200:
             data = response.json()
             return data['results']
