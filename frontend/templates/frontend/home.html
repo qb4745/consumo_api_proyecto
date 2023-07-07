@@ -1,0 +1,181 @@
+{% extends "frontend/base.html" %}
+
+{% load l10n %} <!-- Load the 'l10n' template tag library -->
+
+
+
+{% block content %}
+
+<style>
+  /* Colores de One Piece */
+  .primary-color {
+    color: #E31837;
+  }
+
+  .secondary-color {
+    color: #F9A602;
+  }
+
+  .bg-primary-color {
+    background-color: #E31837;
+  }
+
+  .bg-secondary-color {
+    background-color: #F9A602;
+  }
+
+  /* Fondos con colores de One Piece */
+  body {
+    background-color: #FFE4B5;
+  }
+
+  .container {
+    background-color: #FFF8DC;
+    padding: 20px;
+    margin-top: 20px;
+  }
+</style>
+</head>
+
+<body>
+<div class="container bg-primary-color">
+  <h1 class="mt-5 primary-color text-center">La mejor Página del Manga de One Piece</h1>
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+      <img src="https://1000marcas.net/wp-content/uploads/2022/10/One-Piece-Logo.png" alt="Logo de One Piece" class="img-fluid">
+    </div>
+    <div class="col-md-6">
+      <h3 class="secondary-color">Acerca de One Piece</h3>
+      <p>
+        One Piece es una serie de manga popular creada por Eiichiro Oda. Sigue las aventuras de Monkey D. Luffy y su
+        tripulación de piratas, los Piratas del Sombrero de Paja, mientras buscan el tesoro supremo, conocido como el One Piece, y luchan
+        por convertirse en el Rey de los Piratas.
+      </p>
+      <p>
+        El manga se ha serializado desde 1997 y ha ganado una enorme base de fans en todo el mundo. Se destaca por sus personajes cautivadores,
+        una narrativa épica y una construcción de mundo detallada.
+      </p>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="container bg-primary-color">
+  <h1 class="mt-5 primary-color text-center">Lista de capítulos de One Piece</h1>
+
+      <!--Section: Products v.3-->
+      <section class="text-center mb-4">
+
+        <div class="row wow fadeIn">
+
+          {% for item in data %}
+          <div class="col-lg-3 col-md-6 mb-4">
+
+            <div class="card">
+
+              <div class="view overlay">
+                <img src="{{ item.imagen }}"alt="Cover Image" class=""img-fluid"">
+              </div>
+
+              <div class="card-body text-center">
+                <a href="" class="grey-text">
+                  <h5>{{ item.get_category_display }}</h5>
+                </a>
+                <h5>
+                <strong>
+                  <p class="card-text">Capítulo #: {{ item.capitulo }}</p>
+                            <p class="card-text">Volumen: {{ item.volumen }}</p>
+                            <p class="card-text">Título Romanizado: {{ item.titulo_romanizado }}</p>
+                            <p class="card-text">Título de Viz Media: {{ item.titulo_viz }}</p>
+                            <p class="card-text"># Páginas: {{ item.paginas }}</p>
+                            <p class="card-text">Fecha de publicación: {{ item.fecha_publicacion }}</p>
+                            <p class="card-text">Episodio En Shonnen Jump: {{ item.episodios }}</p>
+                  </strong>
+                </h4>
+
+              </div>
+
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+
+      </section>
+      <!--Section: Products v.3-->
+
+            <!--Pagination-->
+            {% if is_paginated %}
+            <nav class="d-flex justify-content-center wow fadeIn">
+              <ul class="pagination pg-blue">
+
+                <!--Arrow first-->
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;&laquo;</span>
+                    <span class="sr-only">Primera</span>
+                  </a>
+                </li>
+                {% endif %}
+
+                <!--Arrow left-->
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Anterior</span>
+                  </a>
+                </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                  {% if num == page_obj.number %}
+                  <li class="page-item active">
+                    <a class="page-link" href="?page={{ page_obj.number }}">{{ num }}
+                      <span class="sr-only">(actual)</span>
+                    </a>
+                  </li>
+                  {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+                    <li class="page-item">
+                      <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                  {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                    <li class="page-item disabled">
+                      <span class="page-link">...</span>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+
+
+
+
+
+                <!--Arrow right-->
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Siguiente</span>
+                  </a>
+                </li>
+                {% endif %}
+
+                <!--Arrow last-->
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                    <span aria-hidden="true">&raquo;&raquo;</span>
+                    <span class="sr-only">Última</span>
+                  </a>
+                </li>
+                {% endif %}
+              </ul>
+            </nav>
+            {% endif %}
+            <!--Pagination-->
+
+
+
+{% endblock content %}
+
